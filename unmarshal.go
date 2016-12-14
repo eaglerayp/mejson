@@ -68,7 +68,7 @@ func (m M) isExtended() bool {
 	}
 
 	for k, _ := range m {
-		if k[0] != '$' {
+		if len(k) > 0 && k[0] != '$' {
 			return false
 		}
 	}
