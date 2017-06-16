@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/compose/mejson"
-	mgo "gopkg.in/mgo.v2"
-	"gopkg.in/mgo.v2/bson"
+
+	"github.com/DroiTaipei/mejson"
+	mgo "github.com/DroiTaipei/mgo"
+	"github.com/DroiTaipei/mgo/bson"
 )
 
 func marsh() {
