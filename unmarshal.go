@@ -3,10 +3,11 @@ package mejson
 import (
 	"encoding/base64"
 	"encoding/hex"
+	"encoding/json"
 	"strconv"
 	"time"
 
-	"gopkg.in/mgo.v2/bson"
+	"github.com/DroiTaipei/mgo/bson"
 )
 
 type M map[string]interface{}
@@ -54,6 +55,23 @@ func (m M) bson() (result bson.M, err error) {
 					}
 				}
 			}
+		case json.Number:
+			jn := value.(json.Number)
+			i64v, i64err := jn.Int64()
+			f64v, f64err := jn.Float64()
+			if i64err != nil {
+				result[key] = f64v
+				continue
+			}
+			if f64err != nil {
+				result[key] = jn.String()
+				continue
+			}
+			if i64v != int64(f64v) {
+				result[key] = i64v
+				continue
+			}
+			result[key] = f64v
 		default:
 			result[key] = v
 		}

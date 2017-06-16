@@ -2,10 +2,11 @@ package mejson
 
 import (
 	"encoding/json"
-	"gopkg.in/mgo.v2/bson"
 	"reflect"
 	"testing"
 	"time"
+
+	"github.com/DroiTaipei/mgo/bson"
 )
 
 func TestMarshal(t *testing.T) {

@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"gopkg.in/mgo.v2/bson"
+	"github.com/DroiTaipei/mgo/bson"
 )
 
 func TestBson(t *testing.T) {

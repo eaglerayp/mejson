@@ -3,10 +3,11 @@ package mejson
 import (
 	"encoding/base64"
 	"fmt"
-	"gopkg.in/mgo.v2/bson"
 	"os"
 	"reflect"
 	"time"
+
+	"github.com/DroiTaipei/mgo/bson"
 )
 
 type Mejson map[string]interface{}
