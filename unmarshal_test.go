@@ -1,6 +1,7 @@
 package mejson
 
 import (
+	"bytes"
 	"encoding/json"
 	"reflect"
 	"testing"
@@ -326,4 +327,30 @@ func TestBsonify(t *testing.T) {
 		}
 	}
 
+}
+
+func TestInt64Unmarshal(t *testing.T) {
+	jsonString := `{"testMaxInt32":2147483647,"testMaxfloat":1.7976931348623157e+308,"testMaxInt64":9223372036854775807}`
+
+	v := make(map[string]interface{})
+	dec := json.NewDecoder(bytes.NewReader([]byte(jsonString)))
+	dec.UseNumber()
+	err := dec.Decode(&v)
+	if err != nil {
+		t.FailNow()
+	}
+
+	bm, err := Unmarshal(v)
+	if err != nil {
+		t.FailNow()
+	}
+	if _, ok := bm["testMaxInt64"].(int64); !ok {
+		t.Errorf("wanted: %s, got: %s", "int64", reflect.TypeOf(bm["testMaxInt64"]).String())
+		t.FailNow()
+	}
+
+	if _, ok := bm["testMaxInt32"].(float64); !ok {
+		t.Errorf("wanted: %s, got: %s", "float64", reflect.TypeOf(bm["testMaxInt32"]).String())
+		t.FailNow()
+	}
 }

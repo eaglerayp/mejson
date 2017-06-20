@@ -208,8 +208,7 @@ func (m M) timestamp() (timestamp bson.MongoTimestamp, ok bool) {
 			}
 
 			ok = true
-			var concat int64
-			concat = int64(uint64(tt)<<32 | uint64(ii))
+			concat := int64(uint64(tt)<<32 | uint64(ii))
 			timestamp = bson.MongoTimestamp(concat)
 		}
 	}

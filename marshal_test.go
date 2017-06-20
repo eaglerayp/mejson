@@ -66,7 +66,7 @@ func TestMarshal(t *testing.T) {
 	}
 
 	for _, d := range data {
-		mejson, err := Marshal(d.in)
+		mejson, _ := Marshal(d.in)
 		b, err := json.Marshal(mejson)
 
 		if err != nil && err.Error() != d.wanterr.Error() {
@@ -151,7 +151,7 @@ func TestMarshalMap(t *testing.T) {
 	}
 
 	for _, d := range data {
-		mejson, err := marshalMap(d.in)
+		mejson, _ := marshalMap(d.in)
 		b, err := json.Marshal(mejson)
 
 		if err != nil {
@@ -183,7 +183,7 @@ func TestMarshalSlice(t *testing.T) {
 	}
 
 	for _, d := range data {
-		mejson, err := marshalSlice(d.in)
+		mejson, _ := marshalSlice(d.in)
 		b, err := json.Marshal(mejson)
 
 		if err != nil {
