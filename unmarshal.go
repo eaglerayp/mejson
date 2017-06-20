@@ -7,6 +7,8 @@ import (
 	"strconv"
 	"time"
 
+	"math"
+
 	"github.com/DroiTaipei/mgo/bson"
 )
 
@@ -67,7 +69,7 @@ func (m M) bson() (result bson.M, err error) {
 				result[key] = jn.String()
 				continue
 			}
-			if i64v != int64(f64v) {
+			if i64v != int64(f64v) || i64v == math.MinInt64 {
 				result[key] = i64v
 				continue
 			}

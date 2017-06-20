@@ -3,9 +3,12 @@ package mejson
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"reflect"
 	"testing"
 	"time"
+
+	"math"
 
 	"github.com/DroiTaipei/mgo/bson"
 )
@@ -330,27 +333,50 @@ func TestBsonify(t *testing.T) {
 }
 
 func TestInt64Unmarshal(t *testing.T) {
-	jsonString := `{"testMaxInt32":2147483647,"testMaxfloat":1.7976931348623157e+308,"testMaxInt64":9223372036854775807}`
-
+	jsonString := fmt.Sprintf(`{"testMaxInt32":%d,"testMaxfloat64":%g,"testMaxInt64":%d,
+		"testZero":0,"testMinInt32":%d,"testSmallestNonzerofloat64":%g,"testMinInt64":%d}`, math.MaxInt32,
+		math.MaxFloat64, math.MaxInt64, math.MinInt32, math.SmallestNonzeroFloat64, math.MinInt64)
 	v := make(map[string]interface{})
 	dec := json.NewDecoder(bytes.NewReader([]byte(jsonString)))
 	dec.UseNumber()
 	err := dec.Decode(&v)
 	if err != nil {
+		fmt.Println("decoder error:", err)
 		t.FailNow()
 	}
 
 	bm, err := Unmarshal(v)
 	if err != nil {
+		fmt.Println("mejson unmarshal error:", err)
 		t.FailNow()
 	}
 	if _, ok := bm["testMaxInt64"].(int64); !ok {
 		t.Errorf("wanted: %s, got: %s", "int64", reflect.TypeOf(bm["testMaxInt64"]).String())
 		t.FailNow()
 	}
-
+	if _, ok := bm["testMinInt64"].(int64); !ok {
+		fmt.Println(bm["testMinInt64"])
+		t.Errorf("wanted: %s, got: %s", "int64", reflect.TypeOf(bm["testMinInt64"]).String())
+		t.FailNow()
+	}
 	if _, ok := bm["testMaxInt32"].(float64); !ok {
 		t.Errorf("wanted: %s, got: %s", "float64", reflect.TypeOf(bm["testMaxInt32"]).String())
+		t.FailNow()
+	}
+	if _, ok := bm["testMaxfloat64"].(float64); !ok {
+		t.Errorf("wanted: %s, got: %s", "float64", reflect.TypeOf(bm["testMaxfloat64"]).String())
+		t.FailNow()
+	}
+	if _, ok := bm["testSmallestNonzerofloat64"].(float64); !ok {
+		t.Errorf("wanted: %s, got: %s", "float64", reflect.TypeOf(bm["testSmallestNonzerofloat64"]).String())
+		t.FailNow()
+	}
+	if _, ok := bm["testZero"].(float64); !ok {
+		t.Errorf("wanted: %s, got: %s", "float64", reflect.TypeOf(bm["testZero"]).String())
+		t.FailNow()
+	}
+	if _, ok := bm["testMinInt32"].(float64); !ok {
+		t.Errorf("wanted: %s, got: %s", "float64", reflect.TypeOf(bm["testMinInt32"]).String())
 		t.FailNow()
 	}
 }
