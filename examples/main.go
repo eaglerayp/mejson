@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 
-	"github.com/DroiTaipei/mejson"
-	mgo "github.com/DroiTaipei/mgo"
-	"github.com/DroiTaipei/mgo/bson"
+	"github.com/eaglerayp/mejson"
+	mgo "github.com/eaglerayp/mgo"
+	"github.com/eaglerayp/mgo/bson"
 )
 
 func marsh() {
